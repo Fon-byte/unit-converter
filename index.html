@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Unit Converter</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        .converter-card {
+            background-color: #ffffff;
+            border-radius: 1rem; /* rounded-xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+        }
+        .input-field, .select-field {
+            border-radius: 0.5rem; /* rounded-md */
+            border: 1px solid #d1d5db; /* border-gray-300 */
+            padding: 0.75rem 1rem; /* px-4 py-2 */
+            width: 100%;
+            font-size: 1rem;
+            color: #1f2937; /* text-gray-900 */
+        }
+        .input-field:focus, .select-field:focus {
+            outline: none;
+            border-color: #3b82f6; /* focus:border-blue-500 */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* focus:ring-blue-500 */
+        }
+        .section-title {
+            color: #1f2937; /* text-gray-800 */
+            font-weight: 600; /* font-semibold */
+            font-size: 1.25rem; /* text-xl */
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .result-display {
+            background-color: #e2e8f0; /* bg-gray-200 */
+            border-radius: 0.5rem; /* rounded-md */
+            padding: 0.75rem 1rem; /* px-4 py-2 */
+            margin-top: 0.5rem;
+            font-size: 1rem;
+            color: #374151; /* text-gray-700 */
+            word-break: break-all; /* Ensure long results don't overflow */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- Header Section -->
+        <div class="lg:col-span-3 text-center mb-8">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+                Universal Unit Converter
+            </h1>
+            <p class="text-lg text-gray-600">
+                Effortlessly convert between various units of measurement.
+            </p>
+            <!-- Potential Ad/Affiliate Marketing Area -->
+            <!-- Uncomment and replace with your ad code or affiliate links -->
+            <!--
+            <div class="mt-8 p-4 bg-yellow-100 border border-yellow-300 rounded-lg text-yellow-800 text-sm">
+                <p>Your Ad or Affiliate Link Here!</p>
+                <a href="#" class="text-blue-600 hover:underline">Check out this great product!</a>
+            </div>
+            -->
+        </div>
+
+        <!-- Length Converter Card -->
+        <div class="converter-card p-6 flex flex-col justify-between">
+            <div>
+                <h2 class="section-title">Length Converter</h2>
+                <div class="mb-4">
+                    <label for="lengthInput" class="block text-gray-700 text-sm font-medium mb-2">Value:</label>
+                    <input type="number" id="lengthInput" class="input-field" placeholder="Enter value" oninput="convertLength()">
+                </div>
+                <div class="mb-4">
+                    <label for="lengthUnitFrom" class="block text-gray-700 text-sm font-medium mb-2">From Unit:</label>
+                    <select id="lengthUnitFrom" class="select-field" onchange="convertLength()">
+                        <option value="meters">Meters (m)</option>
+                        <option value="feet">Feet (ft)</option>
+                        <option value="inches">Inches (in)</option>
+                        <option value="kilometers">Kilometers (km)</option>
+                        <option value="miles">Miles (mi)</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="lengthUnitTo" class="block text-gray-700 text-sm font-medium mb-2">To Unit:</label>
+                    <select id="lengthUnitTo" class="select-field" onchange="convertLength()">
+                        <option value="meters">Meters (m)</option>
+                        <option value="feet">Feet (ft)</option>
+                        <option value="inches">Inches (in)</option>
+                        <option value="kilometers">Kilometers (km)</option>
+                        <option value="miles">Miles (mi)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 text-sm font-medium mb-2">Result:</label>
+                    <div id="lengthResult" class="result-display"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weight Converter Card -->
+        <div class="converter-card p-6 flex flex-col justify-between">
+            <div>
+                <h2 class="section-title">Weight Converter</h2>
+                <div class="mb-4">
+                    <label for="weightInput" class="block text-gray-700 text-sm font-medium mb-2">Value:</label>
+                    <input type="number" id="weightInput" class="input-field" placeholder="Enter value" oninput="convertWeight()">
+                </div>
+                <div class="mb-4">
+                    <label for="weightUnitFrom" class="block text-gray-700 text-sm font-medium mb-2">From Unit:</label>
+                    <select id="weightUnitFrom" class="select-field" onchange="convertWeight()">
+                        <option value="kilograms">Kilograms (kg)</option>
+                        <option value="pounds">Pounds (lb)</option>
+                        <option value="grams">Grams (g)</option>
+                        <option value="ounces">Ounces (oz)</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="weightUnitTo" class="block text-gray-700 text-sm font-medium mb-2">To Unit:</label>
+                    <select id="weightUnitTo" class="select-field" onchange="convertWeight()">
+                        <option value="kilograms">Kilograms (kg)</option>
+                        <option value="pounds">Pounds (lb)</option>
+                        <option value="grams">Grams (g)</option>
+                        <option value="ounces">Ounces (oz)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 text-sm font-medium mb-2">Result:</label>
+                    <div id="weightResult" class="result-display"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Temperature Converter Card -->
+        <div class="converter-card p-6 flex flex-col justify-between">
+            <div>
+                <h2 class="section-title">Temperature Converter</h2>
+                <div class="mb-4">
+                    <label for="tempInput" class="block text-gray-700 text-sm font-medium mb-2">Value:</label>
+                    <input type="number" id="tempInput" class="input-field" placeholder="Enter value" oninput="convertTemperature()">
+                </div>
+                <div class="mb-4">
+                    <label for="tempUnitFrom" class="block text-gray-700 text-sm font-medium mb-2">From Unit:</label>
+                    <select id="tempUnitFrom" class="select-field" onchange="convertTemperature()">
+                        <option value="celsius">Celsius (°C)</option>
+                        <option value="fahrenheit">Fahrenheit (°F)</option>
+                        <option value="kelvin">Kelvin (K)</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="tempUnitTo" class="block text-gray-700 text-sm font-medium mb-2">To Unit:</label>
+                    <select id="tempUnitTo" class="select-field" onchange="convertTemperature()">
+                        <option value="celsius">Celsius (°C)</option>
+                        <option value="fahrenheit">Fahrenheit (°F)</option>
+                        <option value="kelvin">Kelvin (K)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 text-sm font-medium mb-2">Result:</label>
+                    <div id="tempResult" class="result-display"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="lg:col-span-3 text-center mt-8 text-gray-500 text-sm">
+            &copy; <span id="currentYear"></span> Universal Unit Converter. All rights reserved.
+        </div>
+
+    </div>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // --- Length Conversion Logic ---
+        function convertLength() {
+            const inputValue = parseFloat(document.getElementById('lengthInput').value);
+            const unitFrom = document.getElementById('lengthUnitFrom').value;
+            const unitTo = document.getElementById('lengthUnitTo').value;
+            let result = '';
+
+            if (isNaN(inputValue)) {
+                document.getElementById('lengthResult').textContent = '';
+                return;
+            }
+
+            // Convert input to meters first (base unit)
+            let inMeters;
+            switch (unitFrom) {
+                case 'meters':
+                    inMeters = inputValue;
+                    break;
+                case 'feet':
+                    inMeters = inputValue * 0.3048;
+                    break;
+                case 'inches':
+                    inMeters = inputValue * 0.0254;
+                    break;
+                case 'kilometers':
+                    inMeters = inputValue * 1000;
+                    break;
+                case 'miles':
+                    inMeters = inputValue * 1609.34;
+                    break;
+                default:
+                    inMeters = 0;
+            }
+
+            // Convert from meters to target unit
+            switch (unitTo) {
+                case 'meters':
+                    result = inMeters;
+                    break;
+                case 'feet':
+                    result = inMeters / 0.3048;
+                    break;
+                case 'inches':
+                    result = inMeters / 0.0254;
+                    break;
+                case 'kilometers':
+                    result = inMeters / 1000;
+                    break;
+                case 'miles':
+                    result = inMeters / 1609.34;
+                    break;
+                default:
+                    result = 0;
+            }
+
+            document.getElementById('lengthResult').textContent = result.toFixed(4) + ' ' + getUnitSymbol(unitTo);
+        }
+
+        // --- Weight Conversion Logic ---
+        function convertWeight() {
+            const inputValue = parseFloat(document.getElementById('weightInput').value);
+            const unitFrom = document.getElementById('weightUnitFrom').value;
+            const unitTo = document.getElementById('weightUnitTo').value;
+            let result = '';
+
+            if (isNaN(inputValue)) {
+                document.getElementById('weightResult').textContent = '';
+                return;
+            }
+
+            // Convert input to kilograms first (base unit)
+            let inKilograms;
+            switch (unitFrom) {
+                case 'kilograms':
+                    inKilograms = inputValue;
+                    break;
+                case 'pounds':
+                    inKilograms = inputValue * 0.453592;
+                    break;
+                case 'grams':
+                    inKilograms = inputValue * 0.001;
+                    break;
+                case 'ounces':
+                    inKilograms = inputValue * 0.0283495;
+                    break;
+                default:
+                    inKilograms = 0;
+            }
+
+            // Convert from kilograms to target unit
+            switch (unitTo) {
+                case 'kilograms':
+                    result = inKilograms;
+                    break;
+                case 'pounds':
+                    result = inKilograms / 0.453592;
+                    break;
+                case 'grams':
+                    result = inKilograms / 0.001;
+                    break;
+                case 'ounces':
+                    result = inKilograms / 0.0283495;
+                    break;
+                default:
+                    result = 0;
+            }
+
+            document.getElementById('weightResult').textContent = result.toFixed(4) + ' ' + getUnitSymbol(unitTo);
+        }
+
+        // --- Temperature Conversion Logic ---
+        function convertTemperature() {
+            const inputValue = parseFloat(document.getElementById('tempInput').value);
+            const unitFrom = document.getElementById('tempUnitFrom').value;
+            const unitTo = document.getElementById('tempUnitTo').value;
+            let result = '';
+
+            if (isNaN(inputValue)) {
+                document.getElementById('tempResult').textContent = '';
+                return;
+            }
+
+            let inCelsius; // Base unit for temperature conversion
+            switch (unitFrom) {
+                case 'celsius':
+                    inCelsius = inputValue;
+                    break;
+                case 'fahrenheit':
+                    inCelsius = (inputValue - 32) * (5 / 9);
+                    break;
+                case 'kelvin':
+                    inCelsius = inputValue - 273.15;
+                    break;
+                default:
+                    inCelsius = 0;
+            }
+
+            switch (unitTo) {
+                case 'celsius':
+                    result = inCelsius;
+                    break;
+                case 'fahrenheit':
+                    result = (inCelsius * 9 / 5) + 32;
+                    break;
+                case 'kelvin':
+                    result = inCelsius + 273.15;
+                    break;
+                default:
+                    result = 0;
+            }
+
+            document.getElementById('tempResult').textContent = result.toFixed(2) + ' ' + getUnitSymbol(unitTo);
+        }
+
+        // Helper function to get unit symbols for display
+        function getUnitSymbol(unit) {
+            switch (unit) {
+                case 'meters': return 'm';
+                case 'feet': return 'ft';
+                case 'inches': return 'in';
+                case 'kilometers': return 'km';
+                case 'miles': return 'mi';
+                case 'kilograms': return 'kg';
+                case 'pounds': return 'lb';
+                case 'grams': return 'g';
+                case 'ounces': return 'oz';
+                case 'celsius': return '°C';
+                case 'fahrenheit': return '°F';
+                case 'kelvin': return 'K';
+                default: return '';
+            }
+        }
+
+        // Initialize conversions on page load to show default values
+        window.onload = () => {
+            convertLength();
+            convertWeight();
+            convertTemperature();
+        };
+    </script>
+</body>
+</html>
